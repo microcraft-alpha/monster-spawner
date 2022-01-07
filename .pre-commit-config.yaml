@@ -1,0 +1,44 @@
+default_language_version:
+    python: python3
+fail_fast: true
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v2.2.3
+      hooks:
+          - id: trailing-whitespace
+            name: Trailing Whitespace
+          - id: end-of-file-fixer
+            name: End Of File Fixer
+          - id: check-merge-conflict
+            name: Check Merge Conflict
+          - id: detect-private-key
+            name: Detect Private Key
+
+    - repo: https://github.com/pre-commit/mirrors-isort
+      rev: v5.9.2
+      hooks:
+          - id: isort
+            name: Isort
+            exclude: .*/migrations/.*
+
+    - repo: https://github.com/psf/black
+      rev: 21.6b0
+      hooks:
+          - id: black
+            name: Black
+            exclude: .*/migrations/.*
+
+    - repo: local
+      hooks:
+          - id: flake8
+            name: Flake8
+            entry: flake8
+            args: ["--config=setup.cfg"]
+            language: python
+            types: [python]
+
+    - repo: https://github.com/pre-commit/mirrors-mypy
+      rev: v0.910
+      hooks:
+          - id: mypy
+            name: MyPy
