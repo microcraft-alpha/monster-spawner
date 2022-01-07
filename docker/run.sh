@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -exo pipefail
 
 echo "Waiting for Postgres..."
 
@@ -10,4 +10,14 @@ done
 
 echo "Postgres started"
 
-uvicorn monster_spawner.main:app --reload --workers 1 --host 0.0.0.0 --port 8002
+if [[ -z ${DEVELOPMENT} ]];then
+
+    COMMAND=("$(which uvicorn)" "monster_spawner.main:app" "--limit-max-requests=10000" "--timeout-keep-alive=2" "--workers" "1" "--host" "0.0.0.0" "--port" "${PORT:-8002}")
+
+else
+
+    COMMAND=("$(which uvicorn)" "monster_spawner.main:app" "--reload" "--workers" "1" "--host" "0.0.0.0" "--port" "${PORT:-8002}")
+
+fi
+
+exec "${COMMAND[@]}"
