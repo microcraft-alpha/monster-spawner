@@ -49,7 +49,6 @@ USER microcraft
 
 ENV PATH=$PATH:/home/microcraft/.local/bin
 
-# Copy & install dependencies
 COPY --chown=microcraft:microcraft poetry.lock pyproject.toml ./
 RUN poetry install --no-dev
 

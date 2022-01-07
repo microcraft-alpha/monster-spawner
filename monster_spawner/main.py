@@ -9,18 +9,17 @@ log = get_logger()
 
 
 def create_application() -> FastAPI:
-    """Create the FastAPI application and add the GraphQL endpoint.
+    """Create the FastAPI application.
 
     Returns:
-        FastAPI: created FastAPI application.
+        FastAPI: created app.
     """
     log.info("Creating app...")
-    app = FastAPI(
+    return FastAPI(
         title=settings.TITLE,
         version=settings.VERSION,
         description=settings.DESCRIPTION,
     )
-    return app
 
 
 app = create_application()
