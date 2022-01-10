@@ -10,6 +10,8 @@ done
 
 echo "Postgres started"
 
+make migrate
+
 if [[ -z ${DEVELOPMENT} ]];then
 
     COMMAND=("$(which uvicorn)" "monster_spawner.main:app" "--limit-max-requests=10000" "--timeout-keep-alive=2" "--workers" "1" "--host" "0.0.0.0" "--port" "${PORT:-8002}")
