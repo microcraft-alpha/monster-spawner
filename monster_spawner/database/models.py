@@ -2,10 +2,10 @@
 
 from sqlalchemy import Column, String
 
-from monster_spawner.database.generic.model import Base
+from monster_spawner.database import base
 
 
-class Mob(Base):
+class Mob(base.Model):
     """Mob representation."""
 
     __name__ = "mobs"

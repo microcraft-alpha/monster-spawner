@@ -3,7 +3,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from monster_spawner.database.migrations.models import Base
+from monster_spawner.database.migrations.models import Model
 from monster_spawner.settings import settings
 
 config = context.config
@@ -12,7 +12,7 @@ config.set_main_option("sqlalchemy.url", database_url)
 
 fileConfig(config.config_file_name)  # type: ignore
 
-target_metadata = Base.metadata
+target_metadata = Model.metadata
 
 
 def run_migrations_offline():
