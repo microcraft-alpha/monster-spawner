@@ -18,7 +18,7 @@ ENV PATH="$POETRY_HOME/bin:$PATH"
 
 # Install necessary soft
 RUN apt-get update \
-    && apt-get install -y netcat curl make gcc postgresql python3-dev libpq-dev \
+    && apt-get install -y netcat curl git make gcc postgresql python3-dev libpq-dev \
     && apt-get clean
 
 # Install poetry
@@ -40,7 +40,7 @@ COPY . .
 
 ENTRYPOINT ["bash", "docker/run.sh"]
 
-# Prod environment
+# Production environment
 FROM base as prod
 
 RUN useradd -mr microcraft

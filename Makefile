@@ -22,3 +22,13 @@ enter:
 ## Run pre-commit checks
 lint:
 	pre-commit run --all-files
+
+.PHONY: makemigrations
+## Generate migrations
+makemigrations:
+	alembic revision --autogenerate
+
+.PHONY: migrate
+## Run migrations
+migrate:
+	alembic upgrade head
