@@ -37,5 +37,9 @@ class Repository(Generic[InSchema, OutSchema], abc.ABC):
         """
 
     @abc.abstractmethod
-    async def collect(self) -> Iterable[OutSchema]:
-        """Collect all entries."""
+    async def collect(self, query: Any = None) -> Iterable[OutSchema]:
+        """Collect all entries and allow filtering.
+
+        Args:
+            query (Any): abstract condition statement.
+        """
