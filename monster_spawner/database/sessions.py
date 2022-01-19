@@ -1,15 +1,40 @@
 """Database session helpers."""
 
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from typing import Callable
+
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    create_async_engine,
+)
 from sqlalchemy.orm import sessionmaker
 
 from monster_spawner.settings import settings
 
-engine = create_async_engine(settings.DATABASE_URL)
-async_session = sessionmaker(
-    engine,
-    class_=AsyncSession,
-    expire_on_commit=False,
+
+def get_connection(
+    database_url: str,
+) -> tuple[AsyncEngine, Callable[..., AsyncSession]]:
+    """Prepare a database connection.
+
+    Args:
+        database_url (str): database url.
+
+    Returns:
+        tuple[AsyncEngine, Callable[..., AsyncSession]]: async engine
+            and session.
+    """
+    engine = create_async_engine(database_url)
+    async_session = sessionmaker(
+        engine,
+        class_=AsyncSession,
+        expire_on_commit=False,
+    )
+    return engine, async_session
+
+
+engine, async_session = get_connection(
+    settings.DATABASE_URL + settings.DATABASE_NAME,
 )
 
 

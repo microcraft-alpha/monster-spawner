@@ -1,13 +1,14 @@
 """Mobs API routes."""
-
 from typing import Iterable
 from uuid import UUID
 
 from fastapi import APIRouter
+from fastapi import exceptions as http_exceptions
 from fastapi.params import Depends
 from starlette import status
 
 from monster_spawner.api.v1.mobs import schemas
+from monster_spawner.domain import exceptions
 from monster_spawner.domain.database import transactions
 from monster_spawner.domain.mob import repositories, services
 
@@ -34,10 +35,19 @@ async def create_mob(
         payload (MobInSchema): mob input data.
         service (MobService): mob service.
 
+    Raises:
+        HTTPException: when mob already exists.
+
     Returns:
         MobOutSchema: mob output data.
     """
-    return await service.create(payload)
+    try:
+        return await service.create(payload)
+    except exceptions.AlreadyExistsError:
+        raise http_exceptions.HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Mob already exists",
+        )
 
 
 @router.get(
@@ -55,10 +65,19 @@ async def get_mob(
         pk (UUID): primary key of the mob.
         service (MobService): mob service.
 
+    Raises:
+        HTTPException: when mob does not exist.
+
     Returns:
         MobOutSchema: mob output data.
     """
-    return await service.get(pk)
+    try:
+        return await service.get(pk)
+    except exceptions.DoesNotExistError:
+        raise http_exceptions.HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Mob does not exist",
+        )
 
 
 @router.get(

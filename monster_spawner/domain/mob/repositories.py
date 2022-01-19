@@ -6,7 +6,7 @@ from monster_spawner.domain.database import repositories
 
 
 class MobRepository(
-    repositories.ORMRepository[
+    repositories.AlchemyRepository[
         models.Mob,
         schemas.MobInSchema,
         schemas.MobOutSchema,

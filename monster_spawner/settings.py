@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     DEBUG: bool = env.bool("DEBUG", default=False)
 
     DATABASE_URL: str = env.str("DATABASE_URL")
+    DATABASE_NAME: str = env.str("DATABASE_NAME")
 
 
 settings = Settings()

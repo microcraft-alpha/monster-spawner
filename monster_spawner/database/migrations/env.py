@@ -7,7 +7,9 @@ from monster_spawner.database.migrations.models import Model
 from monster_spawner.settings import settings
 
 config = context.config
-database_url = settings.DATABASE_URL.replace("+asyncpg", "")
+database_url = (
+    settings.DATABASE_URL.replace("+asyncpg", "") + settings.DATABASE_NAME
+)
 config.set_main_option("sqlalchemy.url", database_url)
 
 fileConfig(config.config_file_name)  # type: ignore

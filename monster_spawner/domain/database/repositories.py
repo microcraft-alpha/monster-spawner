@@ -1,18 +1,19 @@
 """Database storage classes."""
 
 import uuid
-from typing import Generic, Iterable, Type, TypeVar
+from typing import Generic, Iterable, Optional, TypeVar
 
+from sqlalchemy import sql
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.future import select
 
-from monster_spawner.database import base, exceptions
-from monster_spawner.domain import repositories
+from monster_spawner.database import base
+from monster_spawner.domain import exceptions, repositories
 
 Model = TypeVar("Model", bound=base.Model)
 
 
-class ORMRepository(
+class AlchemyRepository(
     Generic[
         Model,
         repositories.InSchema,
@@ -25,8 +26,8 @@ class ORMRepository(
 ):
     """Generic database storage for ORM models."""
 
-    table: Type[Model]
-    schema: Type[repositories.OutSchema]
+    table: type[Model]
+    schema: type[repositories.OutSchema]
 
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
@@ -62,17 +63,23 @@ class ORMRepository(
         """
         entry = await self.session.get(self.table, entry_id)
         if not entry:
-            raise exceptions.DoesNotExistError(
-                f"{self.table.__name__}<id:{entry_id}> does not exist",
-            )
+            raise exceptions.DoesNotExistError()
         return self.schema.from_orm(entry)
 
-    async def collect(self) -> Iterable[repositories.OutSchema]:
-        """Collect all entries.
+    async def collect(
+        self,
+        query: Optional[sql.Select] = None,
+    ) -> Iterable[repositories.OutSchema]:
+        """Collect all entries nased on the query.
+
+        Args:
+            query (Optional[Select]): [description].
+                Defaults to 'select(self.table)'.
 
         Returns:
             Iterable[OutSchema]: list of output data representations.
         """
-        query = select(self.table)
+        if query is None:
+            query = select(self.table)
         entries = await self.session.execute(query)
         return (self.schema.from_orm(entry) for entry in entries.scalars())
