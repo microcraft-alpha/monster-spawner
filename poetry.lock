@@ -236,7 +236,7 @@ python-versions = "*"
 
 [[package]]
 name = "fastapi"
-version = "0.72.0"
+version = "0.73.0"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 category = "main"
 optional = false
@@ -1136,7 +1136,7 @@ typing_extensions = ">=3.6,<5.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "5bfa2c26d47bc08530d5ac47d48caec60bc41d9ad5cc162b6e8351ae1b993cef"
+content-hash = "d8e291aa70b0a3de022e54f170fa3305784d05a26a952f6899fb98b77660fb7c"
 
 [metadata.files]
 alembic = [
@@ -1288,8 +1288,8 @@ eradicate = [
     {file = "eradicate-2.0.0.tar.gz", hash = "sha256:27434596f2c5314cc9b31410c93d8f7e8885747399773cd088d3adea647a60c8"},
 ]
 fastapi = [
-    {file = "fastapi-0.72.0-py3-none-any.whl", hash = "sha256:7421a2f30e9ed1866874cff089733d4f9a0cd4f49b6ea3995c0de75e32bbb52f"},
-    {file = "fastapi-0.72.0.tar.gz", hash = "sha256:019ec52c00581bc055e6dfb621aaa9c2a56007c283839305412e1073a777eaf1"},
+    {file = "fastapi-0.73.0-py3-none-any.whl", hash = "sha256:f0a618aff5f6942862f2d3f20f39b1c037e33314d1b8207fd1c3a2cca76dfd8c"},
+    {file = "fastapi-0.73.0.tar.gz", hash = "sha256:dcfee92a7f9a72b5d4b7ca364bd2b009f8fc10d95ed5769be20e94f39f7e5a15"},
 ]
 filelock = [
     {file = "filelock-3.4.2-py3-none-any.whl", hash = "sha256:cf0fc6a2f8d26bd900f19bf33915ca70ba4dd8c56903eeb14e1e7a2fd7590146"},
