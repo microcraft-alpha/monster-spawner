@@ -12,6 +12,7 @@
 - [Getting Started](#getting_started)
 - [Usage](#usage)
 - [Development](#development)
+- [Sources](#sources)
 
 ## About <a name = "about"></a>
 
@@ -94,3 +95,9 @@ make test
 ```
 
 `pytest` is configured to use database separated from the one that app uses - by default its the `postgres` one. Tests are also using different sessions to have a clean separation. You can check more fixtures in the `conftest.py` file, or the general configuration in the `pytest.ini` section.
+
+## Sources <a name = "sources"></a>
+
+To get more insights about design patters in Python i highly recommend [Architecture Patterns with Python](https://www.oreilly.com/library/view/architecture-patterns-with/9781492052197/) by Harry Percival and Bob Gregory.
+
+A big inspiration for this project was [SqlAlchemy 1.4 async ORM with FastAPI](https://rogulski.it/blog/sqlalchemy-14-async-orm-with-fastapi/) article by Piotr Rogulski.

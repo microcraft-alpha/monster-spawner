@@ -2,22 +2,22 @@
 
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
-from monster_spawner.domain import transactions
+from monster_spawner.domain import repositories, transactions
 
 
 class DatabaseTransaction(transactions.Transaction):
     """Database unit of work."""
 
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(
+        self,
+        session: AsyncSession,
+        repository: type[repositories.Repository],
+    ) -> None:
         self.session = session
+        self.repository = repository(session=session)
 
     async def __aexit__(self, *args, **kwargs) -> None:
-        """Exit transaction and close the session.
-
-        Args:
-            args: positional arguments.
-            kwargs: keyword arguments.
-        """
+        """Exit transaction and close the session."""  # noqa: DAR101
         await super().__aexit__(*args, **kwargs)
         await self.session.close()
 

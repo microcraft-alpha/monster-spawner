@@ -38,10 +38,20 @@ class MobService:
         Returns:
             MobService: service with the dependencies.
         """
-        # TODO: I can do better than this.
-        self.repository = self.repository_class(session)
-        self.transaction = self.transaction_class(session)
+        self.transaction = self.transaction_class(
+            session,
+            self.repository_class,
+        )
         return self
+
+    @property
+    def repository(self) -> repositories.Repository:
+        """Get the repository out of the transaction.
+
+        Returns:
+            Repository: storage class instance.
+        """
+        return self.transaction.repository
 
     async def create(
         self,
