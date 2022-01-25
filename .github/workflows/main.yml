@@ -46,4 +46,4 @@ jobs:
             ${{ runner.os }}-pre-commit-
 
       - name: Run pre-commit
-        run: make lint
+        run: poetry run pre-commit run --all-files
