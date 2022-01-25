@@ -1,7 +1,7 @@
 """Database storage classes."""
 
+import typing as T  # noqa: WPS111,N812
 import uuid
-from typing import Generic, Iterable, Optional, TypeVar
 
 from sqlalchemy import sql
 from sqlalchemy.ext.asyncio.session import AsyncSession
@@ -10,16 +10,12 @@ from sqlalchemy.future import select
 from monster_spawner.database import base
 from monster_spawner.domain import exceptions, repositories
 
-Model = TypeVar("Model", bound=base.Model)
+Model = T.TypeVar("Model", bound=base.Model)
 
 
 class AlchemyRepository(
-    Generic[
+    T.Generic[
         Model,
-        repositories.InSchema,
-        repositories.OutSchema,
-    ],
-    repositories.Repository[
         repositories.InSchema,
         repositories.OutSchema,
     ],
@@ -29,7 +25,7 @@ class AlchemyRepository(
     table: type[Model]
     schema: type[repositories.OutSchema]
 
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, *args, session: AsyncSession, **kwargs) -> None:
         self.session = session
 
     async def create(
@@ -68,12 +64,12 @@ class AlchemyRepository(
 
     async def collect(
         self,
-        query: Optional[sql.Select] = None,
-    ) -> Iterable[repositories.OutSchema]:
+        query: T.Optional[sql.Select] = None,
+    ) -> T.Iterable[repositories.OutSchema]:
         """Collect all entries nased on the query.
 
         Args:
-            query (Optional[Select]): [description].
+            query (Optional[Select]): sql query object.
                 Defaults to 'select(self.table)'.
 
         Returns:

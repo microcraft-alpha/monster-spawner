@@ -2,17 +2,16 @@
 
 import abc
 
+from monster_spawner.domain import repositories
+
 
 class Transaction(abc.ABC):
     """Unit of work abstraction."""
 
-    def __init__(self, *args, **kwargs) -> None:
-        """Allow taking parameters.
+    repository: repositories.Repository
 
-        Args:
-            args: positional arguments.
-            kwargs: keyword arguments.
-        """
+    def __init__(self, *args, **kwargs) -> None:
+        """Allow taking parameters."""  # noqa: DAR101
 
     async def __aenter__(self) -> "Transaction":
         """Start the transaction.
@@ -23,12 +22,7 @@ class Transaction(abc.ABC):
         return self
 
     async def __aexit__(self, *args, **kwargs) -> None:
-        """Exit and rollback the transaction.
-
-        Args:
-            args: positional arguments.
-            kwargs: keyword arguments.
-        """
+        """Exit and rollback the transaction."""  # noqa: DAR101
         await self.rollback()
 
     @abc.abstractmethod

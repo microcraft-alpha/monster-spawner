@@ -19,12 +19,7 @@ class Model:
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     def __init__(self, *args, **kwargs) -> None:
-        """Allow taking parameters.
-
-        Args:
-            args: positional arguments.
-            kwargs: keyword arguments.
-        """
+        """Allow taking parameters."""  # noqa: DAR101
 
     @declared_attr
     def __tablename__(self) -> str:

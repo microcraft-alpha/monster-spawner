@@ -1,4 +1,5 @@
 """Mobs API routes."""
+
 from typing import Iterable
 from uuid import UUID
 

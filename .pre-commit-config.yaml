@@ -1,6 +1,8 @@
 default_language_version:
   python: python3
+
 fail_fast: false
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
@@ -59,3 +61,9 @@ repos:
       - id: pyupgrade
         name: Pyupgrade
         args: ["--py36-plus"]
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.8.0.1
+    hooks:
+      - id: shellcheck
+        name: Check shell scripts
