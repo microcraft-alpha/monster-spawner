@@ -45,5 +45,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pre-commit-
 
-      - name: Run pre-commit
-        run: poetry run pre-commit run --all-files
+      - name: Run pre-commit hooks
+        run: make lint
+
+      - name: Run tests
+        run: make test

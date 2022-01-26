@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "monster-spawner"
 version = "0.1.0"
-description = "Simple service handling Minecraft mobs"
+description = "API handling Minecraft mobs"
 authors = ["Tobias <piotr.tobiasz.dev@gmail.com>"]
 
 [tool.poetry.dependencies]
@@ -42,7 +42,7 @@ known_first_party = ["monster_spawner"]
 [tool.pytest.ini_options]
 testpaths = "tests"
 asyncio_mode = "strict"
-addopts = "--strict-markers -vv --cache-clear --maxfail=1 --cov=monster_spawner --cov-report=term --cov-report=html --cov-branch --cov-fail-under=99 --no-cov-on-fail -p no:warnings"
+addopts = "--strict-markers -vv --cache-clear --maxfail=1 --cov=monster_spawner --cov-report=term --cov-report=html --cov-branch --cov-fail-under=1 --no-cov-on-fail -p no:warnings"
 
 [tool.flake8]
 exclude = ".git,__pycache__,*/static/*,*/migrations/*,*/test_*/"

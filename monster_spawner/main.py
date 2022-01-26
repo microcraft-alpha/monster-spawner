@@ -1,6 +1,7 @@
 """App handlers."""
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from structlog import get_logger
 
 from monster_spawner.api import router
@@ -21,6 +22,11 @@ def create_application() -> FastAPI:
         version=settings.VERSION,
         description=settings.DESCRIPTION,
         docs_url="/api/docs",
+    )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_credentials=True,
+        allow_methods=["*"],
     )
     app.include_router(router.api_router)
     return app

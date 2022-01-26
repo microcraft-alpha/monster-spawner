@@ -19,6 +19,12 @@ repos:
         name: Mixed Line Ending
       - id: detect-private-key
         name: Detect Private Keys
+      - id: check-json
+        name: Check JSON Files
+      - id: check-toml
+        name: Check TOML Files
+      - id: check-yaml
+        name: Check YAML Files
 
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.10.1
