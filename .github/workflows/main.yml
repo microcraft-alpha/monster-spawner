@@ -12,6 +12,18 @@ jobs:
   ci:
     name: Continuous Integration
     runs-on: ubuntu-20.04
+    env:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/monster-spawner
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: monster-spawner
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
 
@@ -45,5 +57,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pre-commit-
 
-      - name: Run pre-commit
-        run: poetry run pre-commit run --all-files
+      - name: Run pre-commit hooks
+        run: make lint
+
+      - name: Run tests
+        run: make test

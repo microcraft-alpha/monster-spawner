@@ -21,19 +21,19 @@ enter:
 .PHONY: lint
 ## Run pre-commit checks
 lint:
-	pre-commit run --all-files
+	poetry run pre-commit run --all-files
 
 .PHONY: test
 ## Run tests
 test:
-	pytest
+	poetry run pytest
 
 .PHONY: makemigrations
 ## Generate migrations
 makemigrations:
-	alembic revision --autogenerate
+	poetry run alembic revision --autogenerate
 
 .PHONY: migrate
 ## Run migrations
 migrate:
-	alembic upgrade head
+	poetry run alembic upgrade head
