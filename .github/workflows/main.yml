@@ -13,7 +13,7 @@ jobs:
     name: Continuous Integration
     runs-on: ubuntu-20.04
     env:
-      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/monster-spawner
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/monster-spawner
     services:
       postgres:
         image: postgres
