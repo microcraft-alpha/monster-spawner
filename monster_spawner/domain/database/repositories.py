@@ -3,14 +3,33 @@
 import typing as T  # noqa: WPS111,N812
 import uuid
 
-from sqlalchemy import sql
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.sql import elements
 
 from monster_spawner.database import base
 from monster_spawner.domain import exceptions, repositories
 
 Model = T.TypeVar("Model", bound=base.Model)
+
+
+def create_expressions(
+    model: type[base.Model],
+    filters: dict[str, T.Any],
+) -> list[elements.BinaryExpression]:
+    """Create SQL binary expressions from filters.
+
+    Args:
+        model (type[Model]): alchemy model.
+        filters (dict[str, Any]): filters.
+
+    Returns:
+        list[BinaryExpression]: created expressions.
+    """
+    return [
+        getattr(model, field) == value
+        for field, value in filters.items()  # noqa: WPS110
+    ]
 
 
 class AlchemyRepository(
@@ -64,18 +83,20 @@ class AlchemyRepository(
 
     async def collect(
         self,
-        query: T.Optional[sql.Select] = None,
+        **filters: dict[str, T.Any],
     ) -> T.Iterable[repositories.OutSchema]:
         """Collect all entries nased on the query.
 
         Args:
-            query (Optional[Select]): sql query object.
-                Defaults to 'select(self.table)'.
+            filters (dict): filters to apply.
 
         Returns:
             Iterable[OutSchema]: list of output data representations.
         """
-        if query is None:
+        if filters:
             query = select(self.table)
+        else:
+            filter_expressions = create_expressions(self.table, filters)
+            query = select(self.table).where(*filter_expressions)
         entries = await self.session.execute(query)
         return (self.schema.from_orm(entry) for entry in entries.scalars())

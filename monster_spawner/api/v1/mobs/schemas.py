@@ -1,24 +1,17 @@
-"""API schemas."""
+"""Mob API schemas."""
 
 from uuid import UUID
 
-from pydantic import BaseModel
+from monster_spawner.api import schemas
 
 
-class Schema(BaseModel):
-    """Business model of a single entity."""
-
-    class Config(BaseModel.Config):
-        orm_mode = True
-
-
-class MobInSchema(Schema):
+class MobInSchema(schemas.Schema):
     """Mob input representation."""
 
     name: str
 
 
-class MobOutSchema(Schema):
+class MobOutSchema(schemas.Schema):
     """Mob output representation."""
 
     id: UUID

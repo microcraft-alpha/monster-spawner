@@ -8,17 +8,11 @@ from fastapi import exceptions as http_exceptions
 from fastapi.params import Depends
 from starlette import status
 
-from monster_spawner.api.v1.mobs import schemas
+from monster_spawner.api.v1.mobs import dependencies, schemas
 from monster_spawner.domain import exceptions
-from monster_spawner.domain.database import transactions
-from monster_spawner.domain.mob import repositories, services
+from monster_spawner.domain.mob import services
 
 router = APIRouter(prefix="/mobs", tags=["mobs"])
-
-mob_service = services.MobService(
-    repositories.MobRepository,
-    transactions.DatabaseTransaction,
-)
 
 
 @router.post(
@@ -28,7 +22,9 @@ mob_service = services.MobService(
 )
 async def create_mob(
     payload: schemas.MobInSchema,
-    service: services.MobService = Depends(mob_service),  # type: ignore
+    service: services.MobService = Depends(
+        dependencies.get_alchemy_mob_service,  # type: ignore
+    ),
 ) -> schemas.MobOutSchema:
     """Create a new mob.
 
@@ -58,7 +54,9 @@ async def create_mob(
 )
 async def get_mob(
     pk: UUID,
-    service: services.MobService = Depends(mob_service),  # type: ignore
+    service: services.MobService = Depends(
+        dependencies.get_alchemy_mob_service,  # type: ignore
+    ),
 ) -> schemas.MobOutSchema:
     """Get mob by its primary key.
 
@@ -87,7 +85,9 @@ async def get_mob(
     response_model=Iterable[schemas.MobOutSchema],
 )
 async def get_mobs(
-    service: services.MobService = Depends(mob_service),  # type: ignore
+    service: services.MobService = Depends(
+        dependencies.get_alchemy_mob_service,  # type: ignore
+    ),
 ) -> Iterable[schemas.MobOutSchema]:
     """Get all mobs.
 
