@@ -3,12 +3,12 @@
 import typing as T  # noqa: WPS111,N812
 import uuid
 
-from sqlalchemy import sql
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.future import select
 
 from monster_spawner.database import base
 from monster_spawner.domain import exceptions, repositories
+from monster_spawner.domain.database import queries
 
 Model = T.TypeVar("Model", bound=base.Model)
 
@@ -64,18 +64,20 @@ class AlchemyRepository(
 
     async def collect(
         self,
-        query: T.Optional[sql.Select] = None,
+        **filters: dict[str, T.Any],
     ) -> T.Iterable[repositories.OutSchema]:
         """Collect all entries nased on the query.
 
         Args:
-            query (Optional[Select]): sql query object.
-                Defaults to 'select(self.table)'.
+            filters (dict): filters to apply.
 
         Returns:
             Iterable[OutSchema]: list of output data representations.
         """
-        if query is None:
+        if filters:
+            filter_expressions = queries.create_expressions(self.table, filters)
+            query = select(self.table).where(*filter_expressions)
+        else:
             query = select(self.table)
         entries = await self.session.execute(query)
         return (self.schema.from_orm(entry) for entry in entries.scalars())

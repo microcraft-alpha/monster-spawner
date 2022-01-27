@@ -7,7 +7,7 @@ from structlog import get_logger
 from monster_spawner.api import router
 from monster_spawner.settings import settings
 
-log = get_logger()
+logger = get_logger(__name__)
 
 
 def create_application() -> FastAPI:
@@ -16,7 +16,7 @@ def create_application() -> FastAPI:
     Returns:
         FastAPI: created app.
     """
-    log.info("Creating app...")
+    logger.info("Creating app...")
     app = FastAPI(
         title=settings.TITLE,
         version=settings.VERSION,

@@ -3,46 +3,19 @@
 import uuid
 from typing import Iterable
 
-from fastapi.params import Depends
-from sqlalchemy.ext.asyncio.session import AsyncSession
-from sqlalchemy.future import select
 from structlog import get_logger
 
 from monster_spawner.api.v1.mobs import schemas
-from monster_spawner.database import models, sessions
 from monster_spawner.domain import exceptions, repositories, transactions
 
-log = get_logger()
+logger = get_logger(__name__)
 
 
 class MobService:
     """Mob model service."""
 
-    def __init__(
-        self,
-        repository: type[repositories.Repository],
-        transaction: type[transactions.Transaction],
-    ) -> None:
-        self.repository_class = repository
-        self.transaction_class = transaction
-
-    def __call__(
-        self,
-        session: AsyncSession = Depends(sessions.get_session),  # type: ignore
-    ) -> "MobService":
-        """Initialize the dependencies with the database session.
-
-        Args:
-            session (AsyncSession): database session.
-
-        Returns:
-            MobService: service with the dependencies.
-        """
-        self.transaction = self.transaction_class(
-            session,
-            self.repository_class,
-        )
-        return self
+    def __init__(self, transaction: transactions.Transaction) -> None:
+        self.transaction = transaction
 
     @property
     def repository(self) -> repositories.Repository:
@@ -68,16 +41,13 @@ class MobService:
         Returns:
             MobOutSchema: mob output data.
         """
-        log.info("Creating mob", data=data_object)
+        logger.info("Creating mob", data=data_object)
         async with self.transaction:
-            query = select(models.Mob).where(
-                models.Mob.name == data_object.name,
-            )
-            mobs = await self.repository.collect(query)
+            mobs = await self.repository.collect(name=data_object.name)
             if list(mobs):
                 raise exceptions.AlreadyExistsError()
             mob = await self.repository.create(data_object)
-        log.info("Created mob", mob=mob)
+        logger.info("Created mob", mob=mob)
         return mob
 
     async def get(
@@ -92,9 +62,9 @@ class MobService:
         Returns:
             MobOutSchema: mob output data.
         """
-        log.info("Getting mob", pk=pk)
+        logger.info("Getting mob", pk=pk)
         mob = await self.repository.get_by_id(pk)
-        log.info("Got mob", mob=mob)
+        logger.info("Got mob", mob=mob)
         return mob
 
     async def get_all(self) -> Iterable[schemas.MobOutSchema]:
@@ -103,7 +73,7 @@ class MobService:
         Returns:
             Iterable[MobOutSchema]: all mobs output data.
         """
-        log.info("Getting all mobs")
+        logger.info("Getting all mobs")
         mobs = await self.repository.collect()
-        log.info("Got all the mobs")
+        logger.info("Got all the mobs")
         return mobs

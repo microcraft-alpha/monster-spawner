@@ -3,7 +3,7 @@
 import typing as T  # noqa: WPS111,N812
 import uuid
 
-from monster_spawner.api.v1.mobs import schemas
+from monster_spawner.api import schemas
 
 InSchema = T.TypeVar("InSchema", bound=schemas.Schema, contravariant=True)
 OutSchema = T.TypeVar("OutSchema", bound=schemas.Schema, covariant=True)
@@ -34,10 +34,13 @@ class Repository(
         """
         ...  # noqa: WPS428
 
-    async def collect(self, query: T.Any = None) -> T.Iterable[OutSchema]:
+    async def collect(
+        self,
+        **filters,
+    ) -> T.Iterable[OutSchema]:
         """Collect all entries and allow filtering.
 
         Args:
-            query (Any): abstract condition statement.
+            filters (dict): additional filters to apply.
         """
         ...  # noqa: WPS428
