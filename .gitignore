@@ -30,3 +30,11 @@ pip-delete-this-directory.txt
 .cache
 nosetests.xml
 coverage.xml
+
+# Trunk extension
+.trunk/
+.flake8
+.hadolint.yaml
+.isort.cfg
+.markdownlint.yaml
+.shellcheckrc

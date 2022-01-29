@@ -2,13 +2,9 @@
 
 import abc
 
-from monster_spawner.domain import repositories
-
 
 class Transaction(abc.ABC):
     """Unit of work abstraction."""
-
-    repository: repositories.Repository
 
     def __init__(self, *args, **kwargs) -> None:
         """Allow taking parameters."""  # noqa: DAR101

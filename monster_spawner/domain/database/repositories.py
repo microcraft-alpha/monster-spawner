@@ -64,7 +64,7 @@ class AlchemyRepository(
 
     async def collect(
         self,
-        **filters: dict[str, T.Any],
+        **filters,
     ) -> T.Iterable[repositories.OutSchema]:
         """Collect all entries nased on the query.
 
