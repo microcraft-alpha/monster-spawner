@@ -17,7 +17,7 @@
 
 ## 🧐 About <a name = "about"></a>
 
-Simple `FastAPI` application that manages Minecraft monsters. General purpose of me doing this at all, is to learn some new design patterns, while learning how to use `FastAPI` and `SQLAlchemy` together. Since this is a very basic app, you can use it as a starting point for your own app.
+Simple `FastAPI` application that manages Minecraft monsters. General purpose of me doing this at all, is to learn some new design patterns, while learning how to use `FastAPI` and `SQLAlchemy` together. In this example I wanted to extract and decouple service and domain layers of the application. Thus, some useful abstractions can be found in the `domain` folder. Since this is a very basic app, you can use it as a starting point for your own app.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
