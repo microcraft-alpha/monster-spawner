@@ -9,6 +9,7 @@ class MobInSchema(schemas.Schema):
     """Mob input representation."""
 
     name: str
+    hostile: bool = False
 
 
 class MobOutSchema(schemas.Schema):
@@ -16,3 +17,4 @@ class MobOutSchema(schemas.Schema):
 
     id: UUID
     name: str
+    hostile: bool = False

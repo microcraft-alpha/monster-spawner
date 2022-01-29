@@ -5,10 +5,6 @@ import uuid
 import pytest
 from fastapi import status
 from httpx import AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from monster_spawner.api.v1.mobs.schemas import MobInSchema
-from monster_spawner.domain.mob.repositories import MobRepository
 
 pytestmark = pytest.mark.asyncio
 
@@ -25,13 +21,9 @@ async def test_mob_create(async_client: AsyncClient):
     assert data["name"] == "Creeper"
 
 
-async def test_mob_create_not_unique(
-    async_client: AsyncClient, database_session: AsyncSession
-):
+async def test_mob_create_not_unique(async_client: AsyncClient):
     """Test creating a mob with a name that already exists."""
-    await MobRepository(session=database_session).create(
-        MobInSchema(name=f"Zombie")
-    )
+    await async_client.post("/api/v1/mobs/", json={"name": "Zombie"})
 
     response = await async_client.post("/api/v1/mobs/", json={"name": "Zombie"})
     data = response.json()
@@ -40,15 +32,11 @@ async def test_mob_create_not_unique(
     assert data["detail"] == "Mob already exists"
 
 
-async def test_mob_list(
-    async_client: AsyncClient, database_session: AsyncSession
-):
+async def test_mob_list(async_client: AsyncClient):
     """Test retrieving a list of mobs."""
     # Add 3 mobs to the database
     for i in range(3):
-        await MobRepository(session=database_session).create(
-            MobInSchema(name=f"Zombie {i}")
-        )
+        await async_client.post("/api/v1/mobs/", json={"name": f"Zombie {i}"})
 
     response = await async_client.get("/api/v1/mobs/")
     data = response.json()
@@ -57,19 +45,29 @@ async def test_mob_list(
     assert len(data) == 3
 
 
-async def test_mob_get(
-    async_client: AsyncClient, database_session: AsyncSession
-):
-    """Test retrieving a single mob."""
-    mob = await MobRepository(session=database_session).create(
-        MobInSchema(name=f"Zombie")
-    )
+async def test_mob_list_with_filters(async_client: AsyncClient):
+    """Test retrieving a list of mobs with filters applied."""
+    # Add 3 mobs to the database
+    for i in range(3):
+        await async_client.post("/api/v1/mobs/", json={"name": f"Zombie {i}"})
 
-    response = await async_client.get(f"/api/v1/mobs/{mob.id}")
+    response = await async_client.get("/api/v1/mobs/?name=Zombie 1")
     data = response.json()
 
     assert response.status_code == status.HTTP_200_OK
-    assert data["id"] == str(mob.id)
+    assert len(data) == 1
+
+
+async def test_mob_get(async_client: AsyncClient):
+    """Test retrieving a single mob."""
+    response = await async_client.post("/api/v1/mobs/", json={"name": "Zombie"})
+    mob = response.json()
+
+    response = await async_client.get(f"/api/v1/mobs/{mob['id']}")
+    data = response.json()
+
+    assert response.status_code == status.HTTP_200_OK
+    assert data["id"] == str(mob["id"])
 
 
 async def test_mob_get_not_existing(async_client: AsyncClient):

@@ -1,7 +1,7 @@
 """Mob services."""
 
+import typing as T  # noqa: WPS111,N812
 import uuid
-from typing import Iterable
 
 from structlog import get_logger
 
@@ -14,17 +14,13 @@ logger = get_logger(__name__)
 class MobService:
     """Mob model service."""
 
-    def __init__(self, transaction: transactions.Transaction) -> None:
+    def __init__(
+        self,
+        transaction: transactions.Transaction,
+        repository: repositories.Repository,
+    ) -> None:
         self.transaction = transaction
-
-    @property
-    def repository(self) -> repositories.Repository:
-        """Get the repository out of the transaction.
-
-        Returns:
-            Repository: storage class instance.
-        """
-        return self.transaction.repository
+        self.repository = repository
 
     async def create(
         self,
@@ -67,13 +63,19 @@ class MobService:
         logger.info("Got mob", mob=mob)
         return mob
 
-    async def get_all(self) -> Iterable[schemas.MobOutSchema]:
+    async def get_all(
+        self,
+        **filters,
+    ) -> T.Iterable[schemas.MobOutSchema]:
         """Get all mobs.
+
+        Args:
+            filters (dict): filters to apply.
 
         Returns:
             Iterable[MobOutSchema]: all mobs output data.
         """
         logger.info("Getting all mobs")
-        mobs = await self.repository.collect()
+        mobs = await self.repository.collect(**filters)
         logger.info("Got all the mobs")
         return mobs
