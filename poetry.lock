@@ -205,7 +205,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "environs"
-version = "9.4.0"
+version = "9.5.0"
 description = "simplified environment variable parsing"
 category = "main"
 optional = false
@@ -1133,7 +1133,7 @@ typing_extensions = ">=3.6,<5.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "bfa3bb622dca29349cc299f8a31a879d81048c6e11541491339b21e5cc78f128"
+content-hash = "18a36bdf02343e0bd7d0ce0090751265ad97c70f7fdd2d743c4f6856bd99bcdd"
 
 [metadata.files]
 alembic = [
@@ -1296,8 +1296,8 @@ docutils = [
     {file = "docutils-0.18.1.tar.gz", hash = "sha256:679987caf361a7539d76e584cbeddc311e3aee937877c87346f31debc63e9d06"},
 ]
 environs = [
-    {file = "environs-9.4.0-py2.py3-none-any.whl", hash = "sha256:b5a197f70c590e8ad2d60d145ea2a2e90d4b1b05cdd04f8e18132d2760123971"},
-    {file = "environs-9.4.0.tar.gz", hash = "sha256:b1cb81fbc0568d85c8ca32328e17bd756a2bb16cff54371d18d15d1832b692aa"},
+    {file = "environs-9.5.0-py2.py3-none-any.whl", hash = "sha256:1e549569a3de49c05f856f40bce86979e7d5ffbbc4398e7f338574c220189124"},
+    {file = "environs-9.5.0.tar.gz", hash = "sha256:a76307b36fbe856bdca7ee9161e6c466fd7fcffc297109a118c59b54e27e30c9"},
 ]
 eradicate = [
     {file = "eradicate-2.0.0.tar.gz", hash = "sha256:27434596f2c5314cc9b31410c93d8f7e8885747399773cd088d3adea647a60c8"},
