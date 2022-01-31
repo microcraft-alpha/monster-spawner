@@ -10,13 +10,5 @@ class Mob(base.Model):
 
     __name__ = "mobs"
 
-    name = Column(String, unique=True)
+    name = Column(String, nullable=False, unique=True)
     hostile = Column(Boolean, nullable=False, default=False)
-
-    def __repr__(self) -> str:
-        """Return a string representation of the model.
-
-        Returns:
-            str: string representation.
-        """
-        return f"<Mob {self.name} - {self.id}>"

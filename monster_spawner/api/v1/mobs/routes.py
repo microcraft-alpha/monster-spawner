@@ -5,12 +5,10 @@ from dataclasses import asdict
 from uuid import UUID
 
 from fastapi import APIRouter
-from fastapi import exceptions as http_exceptions
 from fastapi.params import Depends
 from starlette import status
 
 from monster_spawner.api.v1.mobs import dependencies, filters, schemas
-from monster_spawner.domain import exceptions
 from monster_spawner.domain.mob import services
 
 router = APIRouter(prefix="/mobs", tags=["mobs"])
@@ -22,7 +20,7 @@ router = APIRouter(prefix="/mobs", tags=["mobs"])
     response_model=schemas.MobOutSchema,
 )
 async def create_mob(
-    payload: schemas.MobInSchema,
+    payload: schemas.MobCreateSchema,
     service: services.MobService = Depends(
         dependencies.get_alchemy_mob_service,  # type: ignore
     ),
@@ -30,22 +28,13 @@ async def create_mob(
     """Create a new mob.
 
     Args:
-        payload (MobInSchema): mob input data.
+        payload (MobCreateSchema): mob input data.
         service (MobService): mob service.
-
-    Raises:
-        HTTPException: when mob already exists.
 
     Returns:
         MobOutSchema: mob output data.
     """
-    try:
-        return await service.create(payload)
-    except exceptions.AlreadyExistsError:
-        raise http_exceptions.HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Mob already exists",
-        )
+    return await service.create(payload)
 
 
 @router.get(
@@ -65,19 +54,10 @@ async def get_mob(
         pk (UUID): primary key of the mob.
         service (MobService): mob service.
 
-    Raises:
-        HTTPException: when mob does not exist.
-
     Returns:
         MobOutSchema: mob output data.
     """
-    try:
-        return await service.get(pk)
-    except exceptions.DoesNotExistError:
-        raise http_exceptions.HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Mob does not exist",
-        )
+    return await service.get(pk)
 
 
 @router.get(
@@ -106,3 +86,44 @@ async def get_mobs(
             dict_factory=dependencies.dict_factory,
         ),
     )
+
+
+@router.delete("/{pk}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_mob(
+    pk: UUID,
+    service: services.MobService = Depends(
+        dependencies.get_alchemy_mob_service,  # type: ignore
+    ),
+) -> None:
+    """Delete mob by its primary key.
+
+    Args:
+        pk (UUID): primary key of the mob.
+        service (MobService): mob service.
+    """
+    await service.delete(pk)
+
+
+@router.patch(
+    "/{pk}",
+    status_code=status.HTTP_200_OK,
+    response_model=schemas.MobOutSchema,
+)
+async def update_mob(
+    pk: UUID,
+    payload: schemas.MobUpdateSchema,
+    service: services.MobService = Depends(
+        dependencies.get_alchemy_mob_service,  # type: ignore
+    ),
+) -> schemas.MobOutSchema:
+    """Update an existing mob.
+
+    Args:
+        pk (UUID): primary key of the mob.
+        payload (MobUpdateSchema): mob input data.
+        service (MobService): mob service.
+
+    Returns:
+        MobOutSchema: mob output data.
+    """
+    return await service.update(pk, payload)

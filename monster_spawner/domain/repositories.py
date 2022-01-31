@@ -5,12 +5,21 @@ import uuid
 
 from monster_spawner.api import schemas
 
-InSchema = T.TypeVar("InSchema", bound=schemas.Schema, contravariant=True)
+CreateSchema = T.TypeVar(
+    "CreateSchema",
+    bound=schemas.Schema,
+    contravariant=True,
+)
+UpdateSchema = T.TypeVar(
+    "UpdateSchema",
+    bound=schemas.Schema,
+    contravariant=True,
+)
 OutSchema = T.TypeVar("OutSchema", bound=schemas.Schema, covariant=True)
 
 
 class Repository(
-    T.Generic[InSchema, OutSchema],
+    T.Generic[CreateSchema, UpdateSchema, OutSchema],
     T.Protocol,
 ):
     """Storage interface."""
@@ -18,11 +27,11 @@ class Repository(
     def __init__(self, *args, **kwargs) -> None:
         """Allow taking parameters."""  # noqa: DAR101
 
-    async def create(self, data_object: InSchema) -> OutSchema:
+    async def create(self, data_object: CreateSchema) -> OutSchema:
         """Create a new entry.
 
         Args:
-            data_object (InSchema): input data object.
+            data_object (CreateSchema): input data object.
         """
         ...  # noqa: WPS428
 
@@ -30,7 +39,7 @@ class Repository(
         """Get an entry by its identifier.
 
         Args:
-            entry_id (Any): entry ID.
+            entry_id (UUID): entry ID.
         """
         ...  # noqa: WPS428
 
@@ -42,5 +51,26 @@ class Repository(
 
         Args:
             filters (dict): additional filters to apply.
+        """
+        ...  # noqa: WPS428
+
+    async def delete(self, entry_id: uuid.UUID) -> None:
+        """Delete an entry.
+
+        Args:
+            entry_id (UUID): entry ID.
+        """
+        ...  # noqa: WPS428
+
+    async def update(
+        self,
+        entry_id: uuid.UUID,
+        data_object: UpdateSchema,
+    ) -> OutSchema:
+        """Update an existing entry.
+
+        Args:
+            entry_id (UUID): entry ID.
+            data_object (UpdateSchema): input data object.
         """
         ...  # noqa: WPS428
