@@ -120,7 +120,7 @@ async def update_mob(
 
     Args:
         pk (UUID): primary key of the mob.
-        payload (MobCreateSchema): mob input data.
+        payload (MobUpdateSchema): mob input data.
         service (MobService): mob service.
 
     Returns:

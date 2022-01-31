@@ -58,6 +58,6 @@ inline-quotes = '"'
 
 [tool.coverage.report]
 exclude_lines = [
-    "...  # noqa: WPS428",
-    "# pragma: no cover"
+    "# pragma: no cover",
+    "...  # noqa: WPS428"
 ]
