@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: fdb32991bc77
+Revision ID: 1a25d68528d0
 Revises:
-Create Date: 2022-01-08 15:00:53.484380
+Create Date: 2022-01-31 12:56:24.240116
 
 """
 import sqlalchemy as sa
@@ -10,7 +10,7 @@ from alembic import op
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = "fdb32991bc77"
+revision = "1a25d68528d0"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,11 +21,14 @@ def upgrade():
     op.create_table(
         "mob",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column("name", sa.String(), nullable=True),
+        sa.Column("name", sa.String(), nullable=False),
+        sa.Column("hostile", sa.Boolean(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("name"),
     )
-    # ### end Alembic commands ###
+
+
+# ### end Alembic commands ###
 
 
 def downgrade():

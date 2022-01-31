@@ -8,7 +8,8 @@ from monster_spawner.domain.database import repositories
 class MobRepository(
     repositories.AlchemyRepository[
         models.Mob,
-        schemas.MobInSchema,
+        schemas.MobCreateSchema,
+        schemas.MobUpdateSchema,
         schemas.MobOutSchema,
     ],
 ):

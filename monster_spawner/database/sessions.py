@@ -38,7 +38,7 @@ engine, async_session = get_connection(
 )
 
 
-async def get_session():
+async def get_session():  # pragma: no cover
     """Create a new session.
 
     Yields:
