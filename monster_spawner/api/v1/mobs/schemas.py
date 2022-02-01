@@ -10,6 +10,8 @@ class MobCreateSchema(schemas.Schema):
 
     name: str
     hostile: bool = False
+    health: int = 100
+    damage: int = 10
 
 
 class MobUpdateSchema(schemas.Schema):
@@ -17,6 +19,8 @@ class MobUpdateSchema(schemas.Schema):
 
     name: str | None = None
     hostile: bool | None = None
+    health: int | None = None
+    damage: int | None = None
 
 
 class MobOutSchema(schemas.Schema):
@@ -25,3 +29,5 @@ class MobOutSchema(schemas.Schema):
     id: UUID
     name: str
     hostile: bool
+    health: int
+    damage: int

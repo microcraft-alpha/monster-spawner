@@ -13,6 +13,11 @@ build:
 up:
 	docker-compose up
 
+.PHONY: rebuild
+## Build and start the container
+rebuild:
+	docker-compose up --build
+
 .PHONY: enter
 ## Enter the fastapi container
 enter:
