@@ -1033,7 +1033,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "uvicorn"
-version = "0.17.3"
+version = "0.17.4"
 description = "The lightning-fast ASGI server."
 category = "main"
 optional = false
@@ -1133,7 +1133,7 @@ typing_extensions = ">=3.6,<5.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "16db90b05a0ab5560ce1cf7ab3b0ec74fc6a20e5324ec6066ec5e02f714b027d"
+content-hash = "f2f23c84719bf2fc3bb0f9484595692f22a5eda3679aea36c0e010359af7b22a"
 
 [metadata.files]
 alembic = [
@@ -1818,8 +1818,8 @@ typing-extensions = [
     {file = "typing_extensions-4.0.1.tar.gz", hash = "sha256:4ca091dea149f945ec56afb48dae714f21e8692ef22a395223bcd328961b6a0e"},
 ]
 uvicorn = [
-    {file = "uvicorn-0.17.3-py3-none-any.whl", hash = "sha256:3ab1bf48aa512692db93a91c514576a0739a9d3522827e1656a172ee87118fa5"},
-    {file = "uvicorn-0.17.3.tar.gz", hash = "sha256:3cebddac78c7dd6bfce2f8f838c2c9b0cfcf3dddf417315ba62378ebe7e8fae2"},
+    {file = "uvicorn-0.17.4-py3-none-any.whl", hash = "sha256:e85872d84fb651cccc4c5d2a71cf7ead055b8fb4d8f1e78e36092282c0cf2aec"},
+    {file = "uvicorn-0.17.4.tar.gz", hash = "sha256:25850bbc86195a71a6477b3e4b3b7b4c861fb687fb96912972ce5324472b1011"},
 ]
 uvloop = [
     {file = "uvloop-0.16.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:6224f1401025b748ffecb7a6e2652b17768f30b1a6a3f7b44660e5b5b690b12d"},
