@@ -1,16 +1,15 @@
-name: Github Actions
+name: Continuous Integration
 
 on:
-  pull_request:
   push:
-    branches: master
-  release:
-    types: [published]
-  workflow_dispatch:
+    branches:
+      - master
+      - develop
+  pull_request:
 
 jobs:
   ci:
-    name: Continuous Integration
+    name: Lint and Test
     runs-on: ubuntu-20.04
     env:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/monster-spawner
