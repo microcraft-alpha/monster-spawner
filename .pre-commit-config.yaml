@@ -35,14 +35,14 @@ repos:
         args: [--sp, pyproject.toml]
 
   - repo: https://github.com/psf/black
-    rev: 21.12b0
+    rev: 22.1.0
     hooks:
       - id: black
         name: Black
         exclude: .*/migrations/.*
 
   - repo: https://github.com/asottile/blacken-docs
-    rev: v1.12.0
+    rev: v1.12.1
     hooks:
       - id: blacken-docs
         name: Blacken Docs
@@ -57,20 +57,20 @@ repos:
         types: [python]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.931
+    rev: v0.941
     hooks:
       - id: mypy
         name: MyPy
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.7.2
+    rev: v2.31.1
     hooks:
       - id: pyupgrade
         name: Pyupgrade
         args: ["--py36-plus"]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.8.0.1
+    rev: v0.8.0.4
     hooks:
       - id: shellcheck
         name: Check shell scripts
