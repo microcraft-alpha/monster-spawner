@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/monster-spawner
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
     services:
       postgres:
         image: postgres
