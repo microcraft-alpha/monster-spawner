@@ -19,6 +19,10 @@
 
 Simple `FastAPI` application that manages Minecraft monsters. General purpose of me doing this at all, is to learn some new design patterns, while learning how to use `FastAPI` and `SQLAlchemy` together. In this example I wanted to extract and decouple service and domain layers of the application. Thus, some useful abstractions can be found in the `domain` folder. Since this is a very basic app, you can use it as a starting point for your own app.
 
+### Update
+
+I've created another repositories under `Microcraft` organization, to proceed with implementing a little bit of Event-Driven Architecture. This repo obviously received an update to support publishing events, but I think I did a slightly better job in terms of DDD in the newer repos, so I highly encourage you to check those.
+
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.

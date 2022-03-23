@@ -19,5 +19,9 @@ class Settings(BaseSettings):
     DATABASE_URL: str = env.str("DATABASE_URL")
     DATABASE_NAME: str = env.str("DATABASE_NAME", "")
 
+    # Redis
+    REDIS_HOST: str = env.str("REDIS_HOST")
+    REDIS_PORT: int = env.int("REDIS_PORT")
+
 
 settings = Settings()
