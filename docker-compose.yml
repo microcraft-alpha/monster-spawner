@@ -30,3 +30,9 @@ services:
       - POSTGRES_DB=monster-spawner
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+# Connect to the oak signs network
+# to enable communication between the services
+networks:
+  default:
+    name: oak-signs_default

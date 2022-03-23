@@ -7,6 +7,11 @@ from structlog import get_logger
 
 from monster_spawner.api.v1.mobs import schemas
 from monster_spawner.domain import exceptions, repositories, transactions
+from monster_spawner.domain.events.outgoing import (
+    MonsterCreated,
+    MonsterDeleted,
+)
+from monster_spawner.events.bus import EventBus
 
 logger = get_logger(__name__)
 
@@ -48,6 +53,7 @@ class MobService:
                 )
             mob = await self.repository.create(data_object)
             await self.transaction.commit()
+            await EventBus.publish(MonsterCreated(**mob.dict()))
         logger.info("Created mob", mob=mob)
         return mob
 
@@ -95,6 +101,7 @@ class MobService:
         async with self.transaction:
             await self.repository.delete(pk)
             await self.transaction.commit()
+            await EventBus.publish(MonsterDeleted(id=pk))
         logger.info("Deleted mob", pk=pk)
 
     async def update(
