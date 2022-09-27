@@ -19,7 +19,6 @@ class Model(Base):  # type: ignore
     metadata: Any
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    # TODO: Add created_at and updated_at columns.
 
     @declared_attr
     def __tablename__(self) -> str:
